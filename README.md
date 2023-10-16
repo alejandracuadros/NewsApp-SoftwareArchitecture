@@ -20,7 +20,7 @@ Newsify is a user-friendly mobile news application that provides a personalized 
   -	Push notifications for breaking news or user-defined topics of interest.
 - User Profiles:
   - User profiles to manage preferences, saved articles.
-## Work Distribution:
+## Work Distribution
 - Mobile Application Developer (Flutter/UI Design):
   - Develop the user interface, design layouts, and implement the app's visual elements.
   -	Work on the news feed, article presentation, and user profiles.
