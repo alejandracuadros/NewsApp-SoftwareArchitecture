@@ -11,7 +11,7 @@ class NotificationItem extends StatefulWidget {
     required this.message,
   }) : super(key: key);
 
-  final String message;
+  final String? message;
 
   @override
   State<NotificationItem> createState() => _NotificationItemState();
@@ -22,10 +22,13 @@ class _NotificationItemState extends State<NotificationItem> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.message == null) {
+      return const SizedBox();
+    }
     return InkWell(
       onTap: () => _onTap(),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30).r,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8).r,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -46,7 +49,7 @@ class _NotificationItemState extends State<NotificationItem> {
                       alignment: Alignment.topCenter,
                       duration: const Duration(milliseconds: 200),
                       child: Text(
-                        widget.message,
+                        widget.message!,
                         style: AppTextStyles.styleW500.copyWith(
                           fontSize: 16.sp,
                           color: AppColors.darkBlue,

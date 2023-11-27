@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:kira_news/data/news/cubit/get_news_cubit.dart';
 import 'package:kira_news/presentation/pages/home/widgets/news_card.dart';
 import 'package:kira_news/presentation/widgets/custom_empty_body.dart';
@@ -10,8 +11,19 @@ import 'package:kira_news/presentation/widgets/custom_error_body.dart';
 import '../../../core/theme/app_text_style.dart';
 import '../../widgets/custom_navigation_bar.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<GetNewsCubit>().getNews();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +32,27 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('News', style: AppTextStyles.styleW600),
         actions: [
-          IconButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-            },
-            icon: Icon(
-              Icons.logout,
-            ),
-          )
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.settings),
+            padding: EdgeInsets.zero,
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem<String>(
+                value: 'Log out',
+                child: Row(
+                  children: [
+                    const Icon(Icons.logout),
+                    SizedBox(
+                      width: 4.w,
+                    ),
+                    const Text('Log out'),
+                  ],
+                ),
+                onTap: () {
+                  FirebaseAuth.instance.signOut();
+                },
+              ),
+            ],
+          ),
         ],
       ),
       body: BlocBuilder<GetNewsCubit, GetNewsState>(
@@ -47,7 +72,7 @@ class HomePage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 10, bottom: 20).r,
                         child: Text(
-                          'Top news',
+                          'BBC news',
                           style: AppTextStyles.styleW700.copyWith(
                             fontSize: 26.sp,
                           ),
@@ -65,7 +90,11 @@ class HomePage extends StatelessWidget {
               onRefresh: context.read<GetNewsCubit>().getNews,
             );
           }
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+              child: SpinKitCircle(
+            size: 50,
+            color: Colors.blue,
+          ));
         },
       ),
     );

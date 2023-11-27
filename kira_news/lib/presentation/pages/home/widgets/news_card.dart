@@ -3,14 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:kira_news/data/news/response.dart';
+import 'package:kira_news/presentation/widgets/save_news_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/constants/assets.dart';
 import '../../../../core/theme/app_text_style.dart';
 
 class NewsCard extends StatelessWidget {
-  const NewsCard({super.key, required this.article});
+  const NewsCard({
+    super.key,
+    required this.article,
+    this.isInSaved = false,
+  });
 
   final Articles article;
+  final bool isInSaved;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +48,9 @@ class NewsCard extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 16)
+                          .r,
                   child: Column(
                     children: [
                       Text(
@@ -62,23 +70,27 @@ class NewsCard extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.person,
                                   ),
                                   SizedBox(
                                     width: 8.w,
                                   ),
-                                  Text(
-                                    '${article.author}',
-                                    style: AppTextStyles.styleW600.copyWith(
-                                      fontSize: 15.sp,
+                                  SizedBox(
+                                    width: 0.6.sw,
+                                    child: Text(
+                                      '${article.author}',
+                                      style: AppTextStyles.styleW600.copyWith(
+                                        fontSize: 15.sp,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                 ],
                               ),
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.calendar_month,
                                   ),
                                   SizedBox(
@@ -89,14 +101,10 @@ class NewsCard extends StatelessWidget {
                               )
                             ],
                           ),
-                          Spacer(),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.bookmark_add,
-                              size: 32.r,
-                              color: Colors.black,
-                            ),
+                          const Spacer(),
+                          AddRemoveNewsButton(
+                            article: article,
+                            remove: isInSaved,
                           )
                         ],
                       )

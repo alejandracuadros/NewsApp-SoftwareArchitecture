@@ -1,8 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kira_news/presentation/widgets/black_button.dart';
 import '../../../core/helper_functions.dart';
+import '../../../core/theme/app_text_style.dart';
 import '../../../data/auth/firebase_auth.dart';
-import '../../widgets/form_container.dart';
+import '../../widgets/rounded_text_field.dart';
 import '../sign_up/sign_up.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,8 +15,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
   bool _isSigning = false;
-  final FirebaseAuthService _auth = FirebaseAuthService();
   late final TextEditingController _emailController = TextEditingController();
   late final TextEditingController _passwordController =
       TextEditingController();
@@ -34,89 +37,74 @@ class _LoginPageState extends State<LoginPage> {
         title: const Text("Login"),
       ),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Login",
-                style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              FormContainerWidget(
-                controller: _emailController,
-                hintText: "Email",
-                isPasswordField: false,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              FormContainerWidget(
-                controller: _passwordController,
-                hintText: "Password",
-                isPasswordField: true,
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              GestureDetector(
-                onTap: () {
-                  _signIn();
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: _isSigning
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
-                          )
-                        : const Text(
-                            "Login",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24).r,
+            child: Column(
+              children: [
+                Text(
+                  "Login",
+                  style:
+                      TextStyle(fontSize: 27.sp, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 30.h,
+                ),
+                RoundedTextField(
+                  controller: _emailController,
+                  hintText: "Email",
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                RoundedTextField(
+                  controller: _passwordController,
+                  hintText: "Password",
+                  isObscure: true,
+                ),
+                SizedBox(
+                  height: 30.h,
+                ),
+                BlackButton(
+                  text: 'Login',
+                  onTap: () {
+                    _signIn();
+                  },
+                  isLoading: _isSigning,
+                ),
+                SizedBox(
+                  height: 32.h,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignUpPage()),
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don't have an account?",
+                        style:
+                            AppTextStyles.styleW600.copyWith(fontSize: 15.sp),
+                      ),
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      Text(
+                        "Sign Up",
+                        style: AppTextStyles.styleW700
+                            .copyWith(color: Colors.blue, fontSize: 15.sp),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Don't have an account?"),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SignUpPage()),
-                      );
-                    },
-                    child: const Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -124,27 +112,32 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _signIn() async {
-    setState(() {
-      _isSigning = true;
-    });
+    closeKeyboard();
+    if (_formKey.currentState?.validate() == true) {
+      try {
+        setState(() {
+          _isSigning = true;
+        });
 
-    String email = _emailController.text;
-    String password = _passwordController.text;
+        String email = _emailController.text;
+        String password = _passwordController.text;
 
-    User? user = await _auth.signInWithEmailAndPassword(email, password);
-    setState(() {
-      _isSigning = false;
-    });
-
-    if (user != null) {
-      showToast(message: "User is successfully signed in");
-      // Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => const HomePage(),
-      //     ));
-    } else {
-      showToast(message: "some error occured");
+        final FirebaseAuthService auth = FirebaseAuthService();
+        final user = await auth.signInWithEmailAndPassword(email, password);
+        setState(() {
+          _isSigning = false;
+        });
+        if (user != null) {
+          showToast(
+            message: "User is successfully signed in",
+            color: Colors.green,
+          );
+        }
+      } catch (e) {
+        setState(() {
+          _isSigning = false;
+        });
+      }
     }
   }
 }

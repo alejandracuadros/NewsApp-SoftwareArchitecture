@@ -41,14 +41,9 @@ dependencies:
   cloud_firestore: ^4.13.2
   fluttertoast: ^8.2.2
   font_awesome_flutter: ^10.6.0
-  multiple_result: ^1.0.4
-  get_it: ^7.2.0
   flutter_bloc: ^8.0.0
   equatable: ^2.0.3
-  hive_flutter: ^1.1.0
   flutter_screenutil: ^5.0.0+2
-  another_flushbar: ^1.10.25
-  cool_alert: ^1.1.0
   google_fonts:
   flutter_spinkit:
   http:
@@ -72,6 +67,14 @@ dev_dependencies:
 
   hive_generator: ^1.1.1
   build_runner: ^2.1.4
+
+  flutter_launcher_icons: ^0.13.1
+
+
+
+flutter_launcher_icons:
+  android: true
+  image_path: "assets/images/logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

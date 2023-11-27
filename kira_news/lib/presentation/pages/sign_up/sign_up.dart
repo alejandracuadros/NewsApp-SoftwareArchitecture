@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kira_news/core/theme/app_colors.dart';
+import 'package:kira_news/core/theme/app_text_style.dart';
+import 'package:kira_news/presentation/widgets/black_button.dart';
+import 'package:kira_news/presentation/widgets/rounded_text_field.dart';
 import '../../../core/helper_functions.dart';
 import '../../../data/auth/firebase_auth.dart';
-import '../../widgets/form_container.dart';
-import '../login/login.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -14,12 +17,13 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final FirebaseAuthService _auth = FirebaseAuthService();
-
+  final GlobalKey<FormState> _formKey = GlobalKey();
   late final TextEditingController _usernameController =
       TextEditingController();
   late final TextEditingController _emailController = TextEditingController();
   late final TextEditingController _passwordController =
+      TextEditingController();
+  late final TextEditingController _passwordConfirmController =
       TextEditingController();
 
   bool isSigningUp = false;
@@ -29,6 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
     _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _passwordConfirmController.dispose();
     super.dispose();
   }
 
@@ -37,96 +42,90 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text("SignUp"),
+        title: Text(
+          "Sign Up",
+          style: AppTextStyles.styleW700,
+        ),
       ),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Sign Up",
-                style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              FormContainerWidget(
-                controller: _usernameController,
-                hintText: "Username",
-                isPasswordField: false,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              FormContainerWidget(
-                controller: _emailController,
-                hintText: "Email",
-                isPasswordField: false,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              FormContainerWidget(
-                controller: _passwordController,
-                hintText: "Password",
-                isPasswordField: true,
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              GestureDetector(
-                onTap: () {
-                  _signUp();
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                      child: isSigningUp
-                          ? const CircularProgressIndicator(
-                              color: Colors.white,
-                            )
-                          : const Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            )),
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24).r,
+            child: Column(
+              children: [
+                Text(
+                  "Sign Up",
+                  style:
+                      TextStyle(fontSize: 27.sp, fontWeight: FontWeight.bold),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Already have an account?"),
-                  const SizedBox(
-                    width: 5,
+                SizedBox(
+                  height: 30.h,
+                ),
+                RoundedTextField(
+                  controller: _usernameController,
+                  hintText: "Username",
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                RoundedTextField(
+                  controller: _emailController,
+                  hintText: "Email",
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                RoundedTextField(
+                  controller: _passwordController,
+                  hintText: "Password",
+                  isObscure: true,
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                RoundedTextField(
+                  controller: _passwordConfirmController,
+                  hintText: "Confirm password",
+                  isObscure: true,
+                ),
+                SizedBox(
+                  height: 30.h,
+                ),
+                BlackButton(
+                  text: "Sign Up",
+                  isLoading: isSigningUp,
+                  onTap: () {
+                    _signUp();
+                  },
+                ),
+                SizedBox(height: 32.h),
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0).r,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Already have an account?",
+                          style:
+                              AppTextStyles.styleW600.copyWith(fontSize: 15.sp),
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        Text(
+                          "Login",
+                          style: AppTextStyles.styleW700
+                              .copyWith(color: Colors.blue, fontSize: 15.sp),
+                        )
+                      ],
+                    ),
                   ),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginPage(),
-                            ),
-                            (route) => false);
-                      },
-                      child: const Text(
-                        "Login",
-                        style: TextStyle(
-                            color: Colors.blue, fontWeight: FontWeight.bold),
-                      ))
-                ],
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -134,24 +133,44 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void _signUp() async {
-    setState(() {
-      isSigningUp = true;
-    });
+    closeKeyboard();
+    try {
+      if (_formKey.currentState?.validate() == true) {
+        if (_passwordController.text != _passwordConfirmController.text) {
+          showToast(
+            message: 'Passwords do not match',
+            color: AppColors.primaryYellow,
+          );
+          return;
+        }
+        setState(() {
+          isSigningUp = true;
+        });
 
-    String email = _emailController.text;
-    String password = _passwordController.text;
+        String email = _emailController.text;
+        String password = _passwordController.text;
+        final FirebaseAuthService auth = FirebaseAuthService();
 
-    User? user = await _auth.signUpWithEmailAndPassword(email, password);
+        User? user = await auth.signUpWithEmailAndPassword(email, password);
 
-    setState(() {
-      isSigningUp = false;
-    });
-    Navigator.pop(context);
-    if (user != null) {
-      showToast(message: "User is successfully created");
-      // Navigator.pushNamed(context, "/home");
-    } else {
-      showToast(message: "Some error happend");
+        final collectionRef = FirebaseFirestore.instance.collection('users');
+
+        await collectionRef.doc(user!.uid).set({
+          'username': _usernameController.text,
+          'email': _emailController.text,
+          'password': _passwordController.text,
+          'id': user.uid,
+        }).then((value) => Navigator.pop(context));
+
+        showToast(
+          message: "User is successfully created",
+          color: Colors.green,
+        );
+      }
+    } catch (e) {
+      setState(() {
+        isSigningUp = false;
+      });
     }
   }
 }

@@ -58,6 +58,16 @@ class Articles {
     publishedAt = json['publishedAt'];
     content = json['content'];
   }
+  Articles.fromFirestore(Map<String, dynamic> json) {
+    source = Source(name: json['source']);
+    author = json['author'];
+    title = json['title'];
+    description = json['description'];
+    url = json['url'];
+    urlToImage = json['urlToImage'];
+    publishedAt = json['publishedAt'];
+    content = json['content'];
+  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

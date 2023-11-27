@@ -25,14 +25,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.7.0"
-  another_flushbar:
-    dependency: "direct main"
-    description:
-      name: another_flushbar
-      sha256: "19bf9520230ec40b300aaf9dd2a8fefcb277b25ecd1c4838f530566965befc2a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.12.30"
   archive:
     dependency: transitive
     description:
@@ -177,6 +169,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  cli_util:
+    dependency: transitive
+    description:
+      name: cli_util
+      sha256: b8db3080e59b2503ca9e7922c3df2072cf13992354d5e944074ffa836fba43b7
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   clock:
     dependency: transitive
     description:
@@ -233,14 +233,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
-  cool_alert:
-    dependency: "direct main"
-    description:
-      name: cool_alert
-      sha256: "48a0b6c04914b6dc7e8d7eaccf2adf21bace6533a3eda0aeb412e0d7a03dc00a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
   crypto:
     dependency: transitive
     description:
@@ -353,14 +345,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  flare_flutter:
-    dependency: transitive
-    description:
-      name: flare_flutter
-      sha256: "99d63c60f00fac81249ce6410ee015d7b125c63d8278a30da81edf3317a1f6a0"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -382,6 +366,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.1"
+  flutter_launcher_icons:
+    dependency: "direct dev"
+    description:
+      name: flutter_launcher_icons
+      sha256: "526faf84284b86a4cb36d20a5e45147747b7563d921373d4ee0559c54fcdbcea"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.13.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -448,14 +440,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
-  get_it:
-    dependency: "direct main"
-    description:
-      name: get_it
-      sha256: f79870884de16d689cf9a7d15eedf31ed61d750e813c538a6efb92660fea83c3
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.6.4"
   glob:
     dependency: transitive
     description:
@@ -488,14 +472,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.3"
-  hive_flutter:
-    dependency: "direct main"
-    description:
-      name: hive_flutter
-      sha256: dca1da446b1d808a51689fb5d0c6c9510c0a2ba01e22805d492c73b68e33eecc
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
   hive_generator:
     dependency: "direct dev"
     description:
@@ -528,6 +504,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  image:
+    dependency: transitive
+    description:
+      name: image
+      sha256: "028f61960d56f26414eb616b48b04eb37d700cbe477b7fb09bf1d7ce57fd9271"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.3"
   intl:
     dependency: "direct main"
     description:
@@ -576,14 +560,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  lottie:
-    dependency: transitive
-    description:
-      name: lottie
-      sha256: "893da7a0022ec2fcaa616f34529a081f617e86cc501105b856e5a3184c58c7c2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.4.3"
   matcher:
     dependency: transitive
     description:
@@ -613,14 +589,6 @@ packages:
     description:
       name: mime
       sha256: e4ff8e8564c03f255408decd16e7899da1733852a9110a58fe6d1b817684a63e
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
-  multiple_result:
-    dependency: "direct main"
-    description:
-      name: multiple_result
-      sha256: "8dbaf0e51a93ffe8fb9aaf791f3aaa21966dac489bd146fa58da40860fd1ce7b"
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"

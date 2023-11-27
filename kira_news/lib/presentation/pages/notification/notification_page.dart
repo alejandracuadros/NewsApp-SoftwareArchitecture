@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:kira_news/core/constants/assets.dart';
+import 'package:kira_news/core/models/notification_model.dart';
+import 'package:kira_news/presentation/pages/notification/widgets/notification_item.dart';
 import 'package:kira_news/presentation/widgets/custom_empty_body.dart';
 import '../../../core/theme/app_text_style.dart';
 import '../../widgets/custom_navigation_bar.dart';
@@ -11,60 +15,43 @@ class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const CustomNavigationBar(activeIndex: 3),
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Notifications', style: AppTextStyles.styleW600),
-      ),
-      body: Container(
-        padding: EdgeInsets.only(bottom: 0.1.sh),
-        child: CustomEmptyBody(
-          assetImage: Assets.gifs.emptyNotificationGif,
-          mainAxisAlignment: MainAxisAlignment.center,
+        bottomNavigationBar: const CustomNavigationBar(activeIndex: 3),
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text('Notifications', style: AppTextStyles.styleW600),
         ),
-      ),
-      // BlocBuilder<GetNotificationsCubit, GetNotificationsState>(
-      //   builder: (context, state) {
-      //     if (state is GetNotificationsSuccess) {
-      //       final notificationList = state.list;
-      //       if (notificationList.isEmpty) {
-      //         return const Center(
-      //           child: Text('Bildirisiniz yoxdur'),
-      //         );
-      //       }
-      //       return RefreshIndicator(
-      //         onRefresh: () =>
-      //             context.read<GetNotificationsCubit>().getNotifications(),
-      //         child: ListView.separated(
-      //           padding: EdgeInsets.symmetric(vertical: 22.h),
-      //           itemCount: notificationList.length,
-      //           itemBuilder: (context, index) => NotificationItem(
-      //             message: notificationList[index].message!,
-      //           ),
-      //           separatorBuilder: (context, index) => Padding(
-      //             padding: const EdgeInsets.symmetric(horizontal: 30).r,
-      //             child: Divider(
-      //               color: const Color(0xffBFBFBF).withOpacity(0.22),
-      //               height: 20,
-      //               thickness: 1,
-      //             ),
-      //           ),
-      //         ),
-      //       );
-      //     }
-      //     if (state is GetNotificationsFailure) {
-      //       return Center(
-      //         child: Text(state.message),
-      //       );
-      //     }
-      //     return Padding(
-      //       padding: const EdgeInsets.only(top: 20).r,
-      //       child: const Center(
-      //         child: CircularProgressIndicator(),
-      //       ),
-      //     );
-      //   },
-      // ),
-    );
+        body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .collection('notifications')
+              .snapshots(),
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.hasData && snapshot.data != null) {
+              final notifications = snapshot.data!.docs
+                  .map((query) => NotificationModel.fromFirestore(query.data()))
+                  .toList();
+              if (notifications.isEmpty) {
+                return CustomEmptyBody(
+                  message: 'You have no notifications',
+                  assetImage: Assets.gifs.emptyNotificationGif,
+                );
+              }
+              return ListView.builder(
+                itemBuilder: (context, index) => NotificationItem(
+                  message: notifications[index].message,
+                ),
+                itemCount: notifications.length,
+              );
+            }
+            return const Center(
+              child: SpinKitCircle(
+                size: 50,
+                color: Colors.blue,
+              ),
+            );
+          },
+        ));
   }
 }

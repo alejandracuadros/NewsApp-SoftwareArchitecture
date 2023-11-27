@@ -15,6 +15,7 @@ class CustomErrorBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(
           Assets.images.error,
@@ -43,7 +44,7 @@ class CustomErrorBody extends StatelessWidget {
                 vertical: 8,
               ),
               child: Text(
-                'Yenidən yüklə',
+                'Reload',
                 textAlign: TextAlign.center,
                 style: AppTextStyles.styleW600.copyWith(
                   fontSize: 16.sp,

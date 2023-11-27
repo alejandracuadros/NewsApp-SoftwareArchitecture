@@ -19,11 +19,11 @@ class CustomEmptyBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(
-          assetImage ?? Assets.images.empty,
-          height: 0.3.sh,
+          assetImage ?? Assets.images.error,
+          height: 0.4.sh,
           width: double.infinity,
         ),
         Text(
