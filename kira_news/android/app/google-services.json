@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "863750255749",
+    "project_id": "kira-news",
+    "storage_bucket": "kira-news.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863750255749:android:5fed8bc55fa10027ade5ec",
+        "android_client_info": {
+          "package_name": "com.example.kira_news"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-7wRonVP8B4K-nqYlFF_t6A6G6WOHC3Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863750255749:android:1b3187c237bceb7fade5ec",
+        "android_client_info": {
+          "package_name": "com.kira_news"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-7wRonVP8B4K-nqYlFF_t6A6G6WOHC3Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
