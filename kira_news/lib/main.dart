@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kira_news/data/news/cubit/get_news_cubit.dart';
+import 'package:kira_news/presentation/pages/main/main_page.dart';
 import 'firebase_options.dart';
-import 'presentation/pages/main/main_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

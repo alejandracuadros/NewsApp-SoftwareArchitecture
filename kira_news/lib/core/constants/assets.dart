@@ -9,6 +9,7 @@ class _Images {
   static const _basePath = 'assets/images';
   String get error => '$_basePath/error.png';
   String get empty => '$_basePath/empty.png';
+  String get logo => '$_basePath/logo.png';
 }
 
 class _Icons {
