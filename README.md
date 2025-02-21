@@ -1,4 +1,4 @@
-# News App Description - Software Architecture Project
+# News App - Software Architecture Project
 
 ## Title
 
