@@ -1,7 +1,9 @@
 # News App Description - Software Architecture Project
 
 ## Title
+
 Newsify: Stay Informed, Anytime, Anywhere [(Implemented System)](https://github.com/acuadrosr18/NewsApp-SoftwareArchitecture/tree/bfb0b4103aaccc526813241838a1a1f2d3e2f4c7/kira_news)
+
 ## Team Members
 -	Cuadros Rivas, Alejandra	KK5459
 -	Dadashov, Ruhid		        ZMUFDG		
